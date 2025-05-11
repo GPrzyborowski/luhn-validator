@@ -16,7 +16,11 @@ const calculateChecksum = (number) => {
     let sum = numberArray.reduce((sum, currentDigit) => sum + currentDigit)
     let sumDigits = sum.toString().split('').map(Number)
     let lastDigit = sumDigits[sumDigits.length - 1]
-    return (10 - lastDigit)
+    if(lastDigit == 0) {
+        return 0
+    } else {
+        return (10 - lastDigit)
+    }
 }
 
 const inputButtonHandler = () => {
