@@ -1,0 +1,17 @@
+@use './colors' as *;
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-size: 62.5%;
+	font-family: 'Roboto', sans-serif;
+	background-color: $white;
+}
+
+.main {
+    
+}
