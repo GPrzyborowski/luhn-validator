@@ -21,6 +21,7 @@ body {
 	&__header {
 		margin-bottom: 2em;
 		font-size: 2.4rem;
+		color: $primary;
 	}
 }
 
@@ -32,12 +33,39 @@ body {
 	display: flex;
 	flex-direction: column;
     align-items: center;
-	font-size: 1.6rem;
+	&__label {
+		font-size: 1.6rem;
+	}
 	&__input {
         padding: 0.5em 1em;
+		border-radius: 8px;
+		border: 1px solid black;
+		outline: 1px solid black;
+		font-size: 1.2rem;
+		&:focus {
+		border: 1px solid $primary;
+		outline: 1px solid $primary;
+		}
+		&--error {
+			color: $error;
+		}
 	}
 	&__button {
 		padding: 0.5em 1em;
+		border: 1px solid $primary;
+		background-color: $primary;
+		outline: 1px solid $primary;
+		font-size: 1.6rem;
+		color: $white;
+		border-radius: 8px;
+		transition: background-color .3s, color .3s;
+		&:hover {
+			background-color: $white;
+			color: $primary;
+			cursor: pointer;
+		}
+	}
+	&__result {
 		font-size: 1.6rem;
 	}
 }
