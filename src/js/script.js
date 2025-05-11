@@ -21,7 +21,23 @@ const calculateChecksum = (number) => {
 
 const inputButtonHandler = () => {
     let value = inputField.value
-    inputResult.textContent = calculateChecksum(value)
+    if(value != "") {
+        inputResult.classList.remove("input-box__input--error")
+        inputResult.textContent = `Checksum: ${calculateChecksum(value)}`
+    } else {
+        inputResult.textContent = "Please enter a number"
+        inputResult.classList.add("input-box__input--error")
+    }
+}
+
+const inputFieldHandler = (e) => {
+    const allowedKeys = ["Backspace", "Delete", "ArrowLeft", "ArrowRight"]
+    const isDigit = e.key >= "0" && e.key <= "9"
+    const isAllowedKey = allowedKeys.includes(e.key)
+    if(!isDigit && !isAllowedKey) {
+        e.preventDefault()
+    }
 }
 
 inputBtn.addEventListener('click', inputButtonHandler)
+inputField.addEventListener('keydown', inputFieldHandler)
