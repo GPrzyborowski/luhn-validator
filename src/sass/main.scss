@@ -11,17 +11,27 @@ body {
 	font-family: 'Roboto', sans-serif;
 	background-color: $white;
 }
-
+.header-box {
+	margin-bottom: 5em;
+}
 .main {
-	height: 100vh;
+	padding: 0 2rem;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
 	&__header {
-		margin-bottom: 2em;
+		margin-bottom: .5em;
 		font-size: 2.4rem;
 		color: $primary;
+		line-height: .8;
+		&-warning {
+			padding-top: 2em;
+			font-size: 0.8rem;
+			color: $error;
+			padding: 0;
+			margin: 0;
+
+		}
 	}
 }
 
@@ -29,25 +39,121 @@ body {
 	margin: 1em 2em;
 }
 
+.mode-box {
+	margin-top: 2em;
+	order: 2;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	&__group {
+		margin-top: 1em;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	&__container {
+		width: 100%;
+		text-align: center;
+		position: relative;
+	}
+	&__paragraph {
+		font-size: 1.6rem;
+	}
+	&__label {
+		text-align: center;
+		font-size: 1.2rem;
+	}
+	&__input {
+		position: absolute;
+		right: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 1rem;
+		accent-color: $primary;
+	}
+}
+
+.main-box {
+	margin-top: 5em;
+	order: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.visible {
+	visibility: visible;
+}
+.hidden {
+	visibility: hidden;
+}
+
+.card-box {
+	justify-self: center;
+	order: 3;
+	margin: 2em 0;
+	max-width: 90%;
+	font-size: 1.05rem;
+	&__card {
+		position: relative;
+		width: 18rem;
+		height: 10rem;
+		border-radius: 12px;
+		background: rgb(30, 144, 255);
+		background: linear-gradient(159deg, rgba(30, 144, 255, 1) 0%, rgba(153, 186, 221, 1) 100%);
+		&--logo {
+			position: absolute;
+			bottom: 1rem;
+			right: 1rem;
+			&-img {
+				max-width: 3rem;
+			}
+		}
+		&--chip {
+			position: absolute;
+			bottom: 4.5rem;
+			left: 2rem;
+			&-img {
+				max-width: 2rem;
+			}
+		}
+		&--number {
+			position: absolute;
+			bottom: 3rem;
+			left: 2rem;
+		}
+		&--owner {
+			position: absolute;
+			bottom: 1rem;
+			left: 1rem;
+		}
+	}
+}
+
 .input-box {
 	display: flex;
 	flex-direction: column;
-    align-items: center;
+	align-items: center;
 	&__label {
 		font-size: 1.6rem;
 	}
 	&__input {
-        padding: 0.5em 1em;
+		padding: 0.5em 1em;
 		border-radius: 8px;
 		border: 1px solid black;
 		outline: 1px solid black;
 		font-size: 1.2rem;
 		&:focus {
-		border: 1px solid $primary;
-		outline: 1px solid $primary;
+			border: 1px solid $primary;
+			outline: 1px solid $primary;
 		}
 		&--error {
-			color: $error;
+			outline: 1px solid $error;
+			border: 1px solid $error;
 		}
 	}
 	&__button {
@@ -55,10 +161,10 @@ body {
 		border: 1px solid $primary;
 		background-color: $primary;
 		outline: 1px solid $primary;
-		font-size: 1.6rem;
+		font-size: 1.2rem;
 		color: $white;
 		border-radius: 8px;
-		transition: background-color .3s, color .3s;
+		transition: background-color 0.3s, color 0.3s;
 		&:hover {
 			background-color: $white;
 			color: $primary;
@@ -66,6 +172,46 @@ body {
 		}
 	}
 	&__result {
+		min-height: 2rem;
 		font-size: 1.6rem;
+		&--error {
+			color: $error;
+		}
+	}
+}
+
+@media (min-width: 1200px) {
+	.main {
+		height: 100vh;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: repeat(3, 1fr);
+	}
+	.main-box {
+		grid-row: 2 / 3;
+	}
+	.card-box {
+		grid-column: 3 / 4;
+		grid-row: 2 / 3;
+		&__card {
+			padding: 5rem 6rem;
+		}
+	}
+
+	.input-box {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.mode-box {
+		grid-column: 1 / 2;
+		grid-row: 1 / 4;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		&__container {
+			justify-content: space-between;
+		}
 	}
 }
