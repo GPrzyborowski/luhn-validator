@@ -103,16 +103,14 @@ const inputToCardAndResultResetHandler = () => {
 		let imgToRemove = document.querySelector('.card-box__card--logo-img')
 		removeImg(imgToRemove)
 	}
-	if (inputField.value.length < 2) {
-		checkCardLogo(inputField.value)
-	}
-	inputField.value = inputField.value.replace(/\D/g, '')
 	cardNumber.textContent = inputField.value
+	inputField.value = inputField.value.replace(/\D/g, '')
 	if (validationRadio.checked && inputField.value.length > 16) {
 		inputField.value = inputField.value.slice(0, 16)
 		cardNumber.textContent = inputField.value
 	}
 	if (inputField.value.length >= 1 && !document.querySelector(`.card-box__card--logo-img`)) {
+		console.log(`append logo step 2`)
 		cardLogo.appendChild(getLogo(Number(inputField.value[0])))
 	}
 }
