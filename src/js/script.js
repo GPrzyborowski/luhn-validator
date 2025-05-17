@@ -33,12 +33,51 @@ const calculateChecksum = number => {
 	}
 }
 
+const validateCardNumber = number => {
+	if (number.length != 16) {
+		return false
+	}
+	let numberArray = number.toString().split('').map(Number)
+	let numberToCompare = numberArray[numberArray.length - 1]
+	numberArray.pop()
+	for (let i = numberArray.length - 1; i >= 0; i -= 2) {
+		numberArray[i] *= 2
+		if (numberArray[i] > 9) {
+			numberArray[i] = numberArray[i]
+				.toString()
+				.split('')
+				.map(Number)
+				.reduce((sum, currentDigit) => sum + currentDigit, 0)
+		}
+	}
+	let sum = numberArray.reduce((sum, currentDigit) => sum + currentDigit)
+	let sumDigits = sum.toString().split('').map(Number)
+	let lastDigit = sumDigits[sumDigits.length - 1]
+	if (lastDigit == 0) {
+		return numberToCompare == 0
+	} else {
+		return numberToCompare == 10 - lastDigit
+	}
+}
+
 const inputButtonHandler = () => {
+	inputResult.classList.remove('input-box__result--success')
+	inputResult.classList.remove('input-box__result--error')
 	let value = inputField.value
 	if (value != '') {
 		inputField.classList.remove('input-box__input--error')
 		inputResult.classList.remove('input-box__result--error')
-		inputResult.textContent = `Checksum: ${calculateChecksum(value)}`
+		if (checksumRadio.checked) {
+			inputResult.textContent = `Checksum: ${calculateChecksum(value)}`
+		} else {
+			if (validateCardNumber(value)) {
+				inputResult.classList.add('input-box__result--success')
+				inputResult.textContent = `Valid number`
+			} else {
+				inputResult.classList.add('input-box__result--error')
+				inputResult.textContent = `Invalid number`
+			}
+		}
 	} else {
 		inputField.classList.add('input-box__input--error')
 		inputResult.textContent = 'Please enter a number'
@@ -58,7 +97,12 @@ const inputFieldProtectionHandler = e => {
 	}
 }
 
-const inputFieldToCardHandler = () => {
+const inputToCardAndResultResetHandler = () => {
+	inputResult.textContent = ''
+	if (inputField.value == '') {
+		let imgToRemove = document.querySelector('.card-box__card--logo-img')
+		removeImg(imgToRemove)
+	}
 	if (inputField.value.length < 2) {
 		checkCardLogo(inputField.value)
 	}
@@ -68,22 +112,25 @@ const inputFieldToCardHandler = () => {
 		inputField.value = inputField.value.slice(0, 16)
 		cardNumber.textContent = inputField.value
 	}
-    if((inputField.value.length >= 1) && !(document.querySelector(`.card-box__card--logo-img`))) {
-        cardLogo.appendChild(getLogo(Number(inputField.value[0])))
-    }
+	if (inputField.value.length >= 1 && !document.querySelector(`.card-box__card--logo-img`)) {
+		cardLogo.appendChild(getLogo(Number(inputField.value[0])))
+	}
 }
 
-const createImg = (logo) => {
+const removeImg = img => {
+	img ? img.remove() : null
+}
+
+const createImg = logo => {
 	if (logo != null) {
 		let newImg = document.createElement('img')
 		newImg.src = `./dist/img/${logo}.webp`
-        newImg.classList.add("card-box__card--logo-img")
+		newImg.classList.add('card-box__card--logo-img')
 		return newImg
 	}
 }
 
-const getLogo = (digit) => {
-    console.log(digit);
+const getLogo = digit => {
 	switch (digit) {
 		case 2:
 		case 5:
@@ -97,21 +144,19 @@ const getLogo = (digit) => {
 	}
 }
 
-const checkCardLogo = (number) => {
-	if (number[0] == 4) {
-		console.log('visa')
-	} else if (number[0] == 5 || number[0] == 2) {
-		console.log('mastercard')
-	}
-}
-
 const radioButtonsHandler = () => {
 	if (validationRadio.checked) {
+		inputResult.textContent = ''
 		inputField.value = ''
+		if (inputField.value == '') {
+			let imgToRemove = document.querySelector('.card-box__card--logo-img')
+			removeImg(imgToRemove)
+		}
 		cardNumber.textContent = ''
 		card.classList.add('visible')
 		card.classList.remove('hidden')
 	} else {
+		inputResult.textContent = ''
 		inputField.value = ''
 		cardNumber.textContent = ''
 		card.classList.remove('visible')
@@ -124,4 +169,4 @@ radioButtons.forEach(radioButton => {
 })
 inputBtn.addEventListener('click', inputButtonHandler)
 inputField.addEventListener('keydown', inputFieldProtectionHandler)
-inputField.addEventListener('input', inputFieldToCardHandler)
+inputField.addEventListener('input', inputToCardAndResultResetHandler)

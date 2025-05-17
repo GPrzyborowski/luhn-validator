@@ -177,6 +177,9 @@ body {
 		&--error {
 			color: $error;
 		}
+		&--success {
+			color: $success;
+		}
 	}
 }
 
